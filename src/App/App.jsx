@@ -51,8 +51,8 @@ function App() {
     <div>
       <Description />
       <Options
-        update={updateFeedback}
-        reset={resetFeedback}
+        onUpdate={updateFeedback}
+        onReset={resetFeedback}
         total={totalFeedback} />
       
       {totalFeedback > 0 && <Feedback
