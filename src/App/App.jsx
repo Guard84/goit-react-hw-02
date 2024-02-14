@@ -23,11 +23,9 @@ function App() {
   }, [values]);
   
  const updateFeedback = feedbackType => {
-  setValues(prevValues => {
-    return {
-      ...prevValues,
-      [feedbackType]: prevValues[feedbackType] + 1
-    };
+  setValues({
+      ...values,
+      [feedbackType]: values[feedbackType] + 1
   });
  };
   
@@ -41,6 +39,7 @@ function App() {
 
   const totalFeedback = values.good + values.neutral + values.bad;
   const percentGoodFeedback = Math.round(((values.good + values.neutral) / totalFeedback) * 100)
+  const availableFeedback = totalFeedback > 0;
 
   
   useEffect(() => {
@@ -55,12 +54,14 @@ function App() {
         onReset={resetFeedback}
         total={totalFeedback} />
       
-      {totalFeedback > 0 && <Feedback
-        values={values}
-        total={totalFeedback}
-        percent={percentGoodFeedback} />}
-      
-      {totalFeedback === 0 && <Notification />}
+      {availableFeedback && (
+        <Feedback
+          values={values}
+          total={totalFeedback}
+          percent={percentGoodFeedback}
+        />
+      )}
+      {!availableFeedback && <Notification total={totalFeedback} />}
     </div>
   );
 }
